@@ -58,7 +58,7 @@ void init_keyboard() {
     
     // Ждем сброс
     for(volatile int i = 0; i < 10000; i++);
-}
+}  
 
 char* input(unsigned char color) {
     buf_pos = 0;

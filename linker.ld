@@ -1,28 +1,37 @@
-ENTRY(_start)
+/* linker.ld - для ядра с поддержкой FAT32 */
 
+ENTRY(_start)
 SECTIONS
 {
-    . = 1M;
-
-    .text BLOCK(4K) : ALIGN(4K)
+    /* Ядро загружается по адресу 1MB */
+    . = 0x100000;
+    
+    /* Multiboot заголовок ДОЛЖЕН быть в первых 8KB */
+    .text ALIGN(4K) : AT(ADDR(.text))
     {
         *(.multiboot)
         *(.text)
     }
-
-    .rodata BLOCK(4K) : ALIGN(4K)
+    
+    /* Read-only data */
+    .rodata ALIGN(4K) : AT(ADDR(.rodata))
     {
-        *(.rodata)
+        *(.rodata*)
     }
-
-    .data BLOCK(4K) : ALIGN(4K)
+    
+    /* Data section */
+    .data ALIGN(4K) : AT(ADDR(.data))
     {
         *(.data)
     }
-
-    .bss BLOCK(4K) : ALIGN(4K)
+    
+    /* BSS section */
+    .bss ALIGN(4K) : AT(ADDR(.bss))
     {
         *(COMMON)
         *(.bss)
     }
+    
+    /* End of kernel */
+    kernel_end = .;
 }

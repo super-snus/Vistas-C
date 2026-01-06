@@ -1,0 +1,193 @@
+
+Объединение программных свойств
+
+Удалено свойство 0xc0010001 при объединении kernel/FileSystem/fat32.o (0x1) и boot/boot.o (не найдено)
+Удалено свойство 0xc0010002 при объединении kernel/FileSystem/fat32.o (0x0) и boot/boot.o (не найдено)
+Удалено свойство 0xc0010001 при объединении kernel/FileSystem/fat32.o (не найдено) и kernel/input.o (0x1)
+Удалено свойство 0xc0010002 при объединении kernel/FileSystem/fat32.o (не найдено) и kernel/input.o (0x0)
+Удалено свойство 0xc0010001 при объединении kernel/FileSystem/fat32.o (не найдено) и kernel/kernel.o (0x1)
+Удалено свойство 0xc0010002 при объединении kernel/FileSystem/fat32.o (не найдено) и kernel/kernel.o (0x0)
+Удалено свойство 0xc0010001 при объединении kernel/FileSystem/fat32.o (не найдено) и kernel/vga.o (0x1)
+Удалено свойство 0xc0010002 при объединении kernel/FileSystem/fat32.o (не найдено) и kernel/vga.o (0x0)
+
+Отброшенные входные разделы
+
+ .note.gnu.property
+                0x00000000       0x28 kernel/FileSystem/fat32.o
+ .note.gnu.property
+                0x00000000       0x28 kernel/input.o
+ .note.gnu.property
+                0x00000000       0x28 kernel/kernel.o
+ .note.gnu.property
+                0x00000000       0x28 kernel/vga.o
+
+Настройки памяти
+
+Имя           Происхождение Длина         Атрибуты
+*default*        0x00000000         0xffffffff
+
+Сценарий компоновщика и карта памяти
+
+                0x00100000                        . = 0x100000
+
+.text           0x00100000     0x1046
+ *(.multiboot)
+ .multiboot     0x00100000        0xc boot/boot.o
+ *(.text)
+ *fill*         0x0010000c        0x4 
+ .text          0x00100010        0xe boot/kernel_entry.o
+                0x00100010                _start
+ .text          0x0010001e      0x94f kernel/FileSystem/fat32.o
+                0x001001c2                fat32_init
+                0x00100257                fat32_list
+                0x00100408                fat32_read
+                0x001006f5                find_free_cluster
+                0x0010078f                fat32_create
+ .text          0x0010096d      0x236 kernel/input.o
+                0x001009dd                init_keyboard
+                0x00100a23                input
+ .text          0x00100ba3      0x335 kernel/kernel.o
+                0x00100ba3                strncmp
+                0x00100c15                strcmp
+                0x00100c54                kernel_main
+ .text          0x00100ed8      0x16e kernel/vga.o
+                0x00100ed8                clear_screen
+                0x00100f3a                putchar
+                0x00100fd0                print
+                0x00101018                println
+
+.iplt           0x00101046        0x0
+ .iplt          0x00101046        0x0 boot/boot.o
+
+.rodata         0x00102000      0x141
+ *(.rodata*)
+ .rodata        0x00102000      0x141 kernel/kernel.o
+
+.eh_frame       0x00102144      0x320
+ .eh_frame      0x00102144      0x1a4 kernel/FileSystem/fat32.o
+ .eh_frame      0x001022e8       0xa0 kernel/input.o
+                                 0xb8 (размер перед ослаблением)
+ .eh_frame      0x00102388       0x5c kernel/kernel.o
+                                 0x74 (размер перед ослаблением)
+ .eh_frame      0x001023e4       0x80 kernel/vga.o
+                                 0x98 (размер перед ослаблением)
+
+.rel.dyn        0x00102464        0x0
+ .rel.got       0x00102464        0x0 boot/boot.o
+ .rel.iplt      0x00102464        0x0 boot/boot.o
+
+.data           0x00103000       0x80
+ *(.data)
+ .data          0x00103000        0x0 kernel/FileSystem/fat32.o
+ .data          0x00103000       0x80 kernel/input.o
+ .data          0x00103080        0x0 kernel/kernel.o
+ .data          0x00103080        0x0 kernel/vga.o
+
+.got            0x00103080        0x0
+ .got           0x00103080        0x0 boot/boot.o
+
+.got.plt        0x00103080        0x0
+ .got.plt       0x00103080        0x0 boot/boot.o
+
+.igot.plt       0x00103080        0x0
+ .igot.plt      0x00103080        0x0 boot/boot.o
+
+.bss            0x00104000     0x4128
+ *(COMMON)
+ *(.bss)
+ .bss           0x00104000     0x4000 boot/kernel_entry.o
+ .bss           0x00108000       0x10 kernel/FileSystem/fat32.o
+ *fill*         0x00108010       0x10 
+ .bss           0x00108020      0x104 kernel/input.o
+ .bss           0x00108124        0x0 kernel/kernel.o
+ .bss           0x00108124        0x4 kernel/vga.o
+                0x00108124                cursor_pos
+                0x00108128                        kernel_end = .
+LOAD boot/boot.o
+LOAD boot/kernel_entry.o
+LOAD kernel/FileSystem/fat32.o
+LOAD kernel/input.o
+LOAD kernel/kernel.o
+LOAD kernel/vga.o
+OUTPUT(kernel/kernel.bin elf32-i386)
+
+.debug_info     0x00000000      0xb29
+ .debug_info    0x00000000      0x60f kernel/FileSystem/fat32.o
+ .debug_info    0x0000060f      0x1f9 kernel/input.o
+ .debug_info    0x00000808      0x19a kernel/kernel.o
+ .debug_info    0x000009a2      0x187 kernel/vga.o
+
+.debug_abbrev   0x00000000      0x4ff
+ .debug_abbrev  0x00000000      0x1c9 kernel/FileSystem/fat32.o
+ .debug_abbrev  0x000001c9      0x13d kernel/input.o
+ .debug_abbrev  0x00000306      0x11f kernel/kernel.o
+ .debug_abbrev  0x00000425       0xda kernel/vga.o
+
+.debug_aranges  0x00000000       0x80
+ .debug_aranges
+                0x00000000       0x20 kernel/FileSystem/fat32.o
+ .debug_aranges
+                0x00000020       0x20 kernel/input.o
+ .debug_aranges
+                0x00000040       0x20 kernel/kernel.o
+ .debug_aranges
+                0x00000060       0x20 kernel/vga.o
+
+.debug_rnglists
+                0x00000000       0x40
+ .debug_rnglists
+                0x00000000       0x2d kernel/FileSystem/fat32.o
+ .debug_rnglists
+                0x0000002d       0x13 kernel/input.o
+
+.debug_line     0x00000000      0x8fe
+ .debug_line    0x00000000      0x545 kernel/FileSystem/fat32.o
+ .debug_line    0x00000545      0x155 kernel/input.o
+ .debug_line    0x0000069a      0x18a kernel/kernel.o
+ .debug_line    0x00000824       0xda kernel/vga.o
+
+.debug_str      0x00000000      0x305
+ .debug_str     0x00000000      0x305 kernel/FileSystem/fat32.o
+                                0x27b (размер перед ослаблением)
+ .debug_str     0x00000305        0x0 kernel/input.o
+                                0x124 (размер перед ослаблением)
+ .debug_str     0x00000305        0x0 kernel/kernel.o
+                                0x10e (размер перед ослаблением)
+ .debug_str     0x00000305        0x0 kernel/vga.o
+                                 0xdb (размер перед ослаблением)
+
+.debug_line_str
+                0x00000000       0x9a
+ .debug_line_str
+                0x00000000       0x9a kernel/FileSystem/fat32.o
+                                 0x62 (размер перед ослаблением)
+ .debug_line_str
+                0x0000009a        0x0 kernel/input.o
+                                 0x62 (размер перед ослаблением)
+ .debug_line_str
+                0x0000009a        0x0 kernel/kernel.o
+                                 0x90 (размер перед ослаблением)
+ .debug_line_str
+                0x0000009a        0x0 kernel/vga.o
+                                 0x46 (размер перед ослаблением)
+
+.comment        0x00000000       0x1b
+ .comment       0x00000000       0x1b kernel/FileSystem/fat32.o
+                                 0x1c (размер перед ослаблением)
+ .comment       0x0000001b        0x0 kernel/input.o
+                                 0x1c (размер перед ослаблением)
+ .comment       0x0000001b        0x0 kernel/kernel.o
+                                 0x1c (размер перед ослаблением)
+ .comment       0x0000001b        0x0 kernel/vga.o
+                                 0x1c (размер перед ослаблением)
+
+.note.GNU-stack
+                0x00000000        0x0
+ .note.GNU-stack
+                0x00000000        0x0 kernel/FileSystem/fat32.o
+ .note.GNU-stack
+                0x00000000        0x0 kernel/input.o
+ .note.GNU-stack
+                0x00000000        0x0 kernel/kernel.o
+ .note.GNU-stack
+                0x00000000        0x0 kernel/vga.o
